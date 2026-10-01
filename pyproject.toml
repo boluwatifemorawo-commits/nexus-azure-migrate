@@ -1,6 +1,6 @@
 [project]
 name = "nexus-azure-migrate"
-version = "0.1.0"
+version = "0.1.1"
 description = "flexible cli for migrating supported artifacts from nexus2/3 to Azure artifacts"
 readme = "README.md"
 authors = [

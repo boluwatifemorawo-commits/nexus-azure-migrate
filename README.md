@@ -139,3 +139,19 @@ For the upload side, create a throwaway feed in an Azure DevOps project and poin
 An Entra access token works in place of a PAT: `az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798`.
 
 To regenerate the CLI reference: `task generate-docs`.
+
+### Releasing
+
+Every push to `main` runs [release.yml](./.github/workflows/release.yml), which tags the commit and publishes a GitHub release with the wheel and sdist.
+The commit message controls the version:
+
+- Default: an alpha of the next patch, e.g. `v0.1.1-alpha.0` (`0.1.1a0` in Python), released on GitHub only as a pre-release.
+- `#minor` or `#major`: bump that part instead of the patch.
+- `#release`: a full release, e.g. `v0.1.1`, published to GitHub **and** PyPI.
+
+```sh
+git commit -m "add nuget retries #release"   # 0.1.1 on GitHub and PyPI
+git commit -m "new npm filter #minor"         # 0.2.0a0 on GitHub only
+```
+
+The PyPI token is the `PYPI_API_TOKEN` repository secret.
