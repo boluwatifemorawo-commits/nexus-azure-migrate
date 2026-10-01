@@ -1,0 +1,28 @@
+version: 3
+
+dotenv: ['.env']
+
+vars:
+  version:
+    sh: uv version --short
+
+tasks:
+  test:
+    cmds:
+      - uv run pytest
+  nexus-up:
+    desc: Start a local Nexus 3 and seed it with test packages
+    cmds:
+      - docker compose up -d --wait
+      - uv run python tests/integration/seed_nexus.py
+  nexus-down:
+    cmds:
+      - docker compose --profile nexus2 down -v
+  generate-docs:
+    cmds:
+      - uv run typer nexus_azure_migrate utils docs --output docs/GENERATED.md --name nexus-azure-migrate
+  docker-build:
+    cmds:
+      - >-
+        docker buildx build -f Dockerfile --platform linux/amd64,linux/arm64
+        -t "nexus-azure-migrate:{{.version}}" .

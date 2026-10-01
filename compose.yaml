@@ -1,0 +1,40 @@
+# Local Nexus 3 used to test the migration end to end.
+#   docker compose up -d --wait
+#   uv run python tests/integration/seed_nexus.py
+# Nexus 2:
+#   docker compose --profile nexus2 up -d nexus2
+#   uv run python tests/integration/seed_nexus2.py
+# UI: http://localhost:8081 (admin / admin123)
+services:
+  nexus:
+    # Nexus 3.77+ (Community Edition) blocks uploads until the EULA is accepted.
+    # seed_nexus.py accepts it, set ACCEPT_NEXUS_EULA=false to do it yourself in the UI.
+    image: sonatype/nexus3:3.96.4
+    ports:
+      - "8081:8081"
+    environment:
+      # use admin/admin123 instead of a generated password. Only for local testing.
+      NEXUS_SECURITY_RANDOMPASSWORD: "false"
+      INSTALL4J_ADD_VM_PARAMS: "-Xms1g -Xmx1g -XX:MaxDirectMemorySize=1g"
+    volumes:
+      - nexus-data:/nexus-data
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8081/service/rest/v1/status/writable"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  # Nexus 2 (end of life) to test --nexus-v2. Started with --profile nexus2
+  # UI: http://localhost:8082/nexus (admin / admin123)
+  nexus2:
+    image: sonatype/nexus:oss
+    profiles: [nexus2]
+    ports:
+      - "8082:8081"
+    volumes:
+      - nexus2-data:/sonatype-work
+
+volumes:
+  nexus-data:
+  nexus2-data:
