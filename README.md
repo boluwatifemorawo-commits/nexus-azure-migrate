@@ -176,4 +176,4 @@ git commit -m "add nuget retries #release"   # 0.1.1 on GitHub and PyPI
 git commit -m "new npm filter #minor"         # 0.2.0a0 on GitHub only
 ```
 
-The PyPI token is the `PYPI_API_TOKEN` repository secret.
+PyPI uses [trusted publishing](https://docs.pypi.org/trusted-publishers/): the `pypi` job in `release.yml`, running in the `pypi` environment, is the trusted publisher. No PyPI token is stored in the repository.
