@@ -1,0 +1,17 @@
+{
+  "name": "nexus-azure-migrate",
+  "description": "Skill for migrating pypi, npm, nuget and maven2 packages from Sonatype Nexus 2/3 to Azure Artifacts with the nexus-azure-migrate CLI.",
+  "author": {
+    "name": "Boluwatife Morawo"
+  },
+  "homepage": "https://github.com/boluwatifemorawo-commits/nexus-azure-migrate",
+  "repository": "https://github.com/boluwatifemorawo-commits/nexus-azure-migrate",
+  "license": "Apache-2.0",
+  "keywords": [
+    "nexus",
+    "azure-artifacts",
+    "azure-devops",
+    "migration",
+    "packages"
+  ]
+}
