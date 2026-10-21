@@ -28,5 +28,6 @@ Every pull request runs:
 - CodeQL for Python and GitHub Actions.
 - zizmor for GitHub Actions workflow security.
 - GitHub dependency review, which blocks new dependencies with high or critical vulnerabilities.
+  A repository admin must enable the dependency graph and set the repository variable `DEPENDENCY_REVIEW_ENABLED=true`.
 
 Dependabot keeps Python dependencies, GitHub Actions and the Docker base image up to date.

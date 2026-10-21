@@ -57,7 +57,7 @@ Every pull request runs these workflows. All of them must pass before a merge.
 | `Security / trivy-image` | Trivy scan of the Docker image. Fails on fixable CRITICAL findings |
 | `Security / codeql` | CodeQL analysis of the Python code and the workflows |
 | `Security / zizmor` | Security lint of the GitHub Actions workflows |
-| `Security / dependency-review` | Blocks new dependencies with high or critical vulnerabilities or GPL/AGPL licenses |
+| `Security / dependency-review` | Blocks new dependencies with high or critical vulnerabilities or GPL/AGPL licenses. Runs once the repository variable `DEPENDENCY_REVIEW_ENABLED` is `true` |
 
 Findings also appear in the repository's **Security > Code scanning** tab.
 

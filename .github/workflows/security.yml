@@ -131,8 +131,10 @@ jobs:
       - uses: zizmorcore/zizmor-action@85b2b9fb8e3325e7a23d7d0a9d7ba5ae0f999e3e # v0.7.1
 
   dependency-review:
-    # blocks PRs that add dependencies with known vulnerabilities or incompatible licenses
-    if: github.event_name == 'pull_request'
+    # blocks PRs that add dependencies with known vulnerabilities or incompatible licenses.
+    # needs the dependency graph (Settings > Advanced Security), then set the repository
+    # variable DEPENDENCY_REVIEW_ENABLED=true
+    if: github.event_name == 'pull_request' && vars.DEPENDENCY_REVIEW_ENABLED == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
