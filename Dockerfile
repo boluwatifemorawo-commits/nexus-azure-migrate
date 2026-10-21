@@ -14,7 +14,8 @@ ENV UV_PYTHON_DOWNLOADS=0
 COPY pyproject.toml uv.lock README.md LICENSE NOTICE ./
 COPY src ./src
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv build --wheel
+    uv build --wheel \
+ && uv export --frozen --no-dev --no-emit-project --format requirements-txt -o dist/requirements.txt
 
 FROM python:3.14-slim AS runner
 
