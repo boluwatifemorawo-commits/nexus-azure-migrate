@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: release
@@ -16,6 +16,10 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      prerelease: ${{ steps.kind.outputs.prerelease }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
@@ -50,6 +54,9 @@ jobs:
           INITIAL_VERSION: 0.1.0
           PRERELEASE: ${{ steps.kind.outputs.prerelease }}
           PRERELEASE_SUFFIX: alpha
+          # the default (master,main) forces a full release on main and ignores PRERELEASE.
+          # #release already decides that, so no branch is a release branch.
+          RELEASE_BRANCHES: _none_
 
       # semver 0.1.1-alpha.0 -> PEP 440 0.1.1a0
       - name: Build
@@ -67,8 +74,26 @@ jobs:
           generate_release_notes: true
           files: dist/*
 
-      - name: Publish to PyPI
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: steps.kind.outputs.prerelease == 'false'
-        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # release/v1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  pypi:
+    # trusted publishing: pypi trusts this workflow and environment through OIDC, no token is stored
+    needs: release
+    if: needs.release.outputs.prerelease == 'false'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/nexus-azure-migrate/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # release/v1
