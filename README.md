@@ -111,7 +111,29 @@ docker run --rm --env-file .env -v "$PWD/nexus-packages:/app/nexus-packages" nex
   If there is no pom, a minimal one is generated from the folder layout.
 - maven2 artifacts are deployed with `deploy:deploy-file` and a generated pom, so dependency information in the original pom is not carried over.
 
+## AI agent plugin
+
+This repository is also a plugin for AI coding agents. It adds a `nexus-azure-migrate` skill that knows how to configure, filter, run and resume a migration.
+
+```sh
+# Claude Code
+/plugin marketplace add boluwatifemorawo-commits/nexus-azure-migrate
+/plugin install nexus-azure-migrate@nexus-azure-migrate
+
+# Codex
+codex plugin marketplace add boluwatifemorawo-commits/nexus-azure-migrate
+codex plugin add nexus-azure-migrate@nexus-azure-migrate
+
+# Gemini CLI
+gemini extensions install https://github.com/boluwatifemorawo-commits/nexus-azure-migrate
+```
+
+Other agents (Copilot, Cursor and others) can read the skill directly from [plugins/nexus-azure-migrate/skills/nexus-azure-migrate/SKILL.md](./plugins/nexus-azure-migrate/skills/nexus-azure-migrate/SKILL.md).
+Agents that work on this repository's code follow [AGENTS.md](./AGENTS.md).
+
 ## Development
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide and the pull request checks, and [SECURITY.md](./SECURITY.md) to report a vulnerability.
 
 ```sh
 uv sync
