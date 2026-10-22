@@ -1,6 +1,6 @@
 {
   "name": "nexus-azure-migrate",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "Migrate pypi, npm, nuget and maven2 packages from Sonatype Nexus 2/3 to Azure Artifacts with the nexus-azure-migrate CLI.",
   "contextFileName": "plugins/nexus-azure-migrate/skills/nexus-azure-migrate/SKILL.md"
 }
