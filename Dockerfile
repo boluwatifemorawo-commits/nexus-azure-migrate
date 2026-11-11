@@ -17,7 +17,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv build --wheel \
  && uv export --frozen --no-dev --no-emit-project --format requirements-txt -o dist/requirements.txt
 
-FROM python:3.14-slim AS runner
+FROM python:3.15-slim AS runner
 
 RUN groupadd --system --gid 999 nonroot \
  && useradd --system --gid 999 --uid 999 --create-home nonroot
